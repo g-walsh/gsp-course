@@ -1,0 +1,257 @@
+\usepackage{amsmath, amssymb}
+\usepackage{color}
+\usepackage{graphics,graphicx}
+\usepackage{chemarr,chemfig}
+\usepackage{tikz,pgf}
+\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{comment}
+
+%\includecomment{htmlSolution}
+%\includecomment{htmlAssignmentSolution}
+\excludecomment{htmlSolution}
+\excludecomment{htmlAssignmentSolution}
+
+\usepackage{array}
+\usetikzlibrary{shadows}
+\usepackage[framemethod=tikz, roundcorner=8pt, shadow,% 
+shadowsize=8pt, innerbottommargin=10pt, splittopskip=20pt, splitbottomskip=20pt]{mdframed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BITS FOR LATEX TO IGNORE ? HTML PARSER
+% if you want to see the latexonly
+\newcommand\printIt[1]{#1}
+\newcommand\latexOnly[1]{\printIt{#1}}
+\newcommand\htmlOnly[1]{}
+
+%
+
+%\newcommand\htmlSolution[1]{}
+%\newcommand\htmlAssignmentSolution[1]{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MARGINS
+\usepackage{anysize}
+%% left. right, top, bottom
+\marginsize{2cm}{6cm}{2cm}{2cm}
+\setlength{\marginparwidth}{5cm}
+
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize #1]%
+{\raggedright\footnotesize #1}}
+\newcommand{\marginnote}{\marginpar}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NAVIGATION
+%\MyLogo{\href{mailto:c.j.fall@exeter.ac.uk}{c.j.fall@exeter.ac.uk}}
+% \rightfooter{   %navigation bar bottom right
+% \normalsize
+% \Acrobatmenu{FirstPage}{$\blacktriangleleft\!\blacktriangleleft$}
+% \Acrobatmenu{PrevPage}{$\blacktriangleleft$}
+% \Acrobatmenu{FullScreen}{$\diamond$}
+% \Acrobatmenu{NextPage}{$\blacktriangleright$}
+% \Acrobatmenu{LastPage}{$\blacktriangleright\!\blacktriangleright$}
+% \hspace{2mm}
+% \Acrobatmenu{Close}{$\times$} }
+% \leftheader{University of Exeter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% HEADERS / FOOTERS
+%\usepackage[pdftex]{geometry}
+%\pagestyle{myheadings}
+%\markright{SysMIC}
+%\markright{   %navigation bar bottom right
+%\normalsize
+%\Acrobatmenu{FirstPage}{$\blacktriangleleft\!\blacktriangleleft$}
+%\Acrobatmenu{FirstPage}{$x$}
+%\Acrobatmenu{PrevPage}{$\blacktriangleleft$}
+%\Acrobatmenu{FullScreen}{$\diamond$}
+%\Acrobatmenu{NextPage}{$\blacktriangleright$}
+%\Acrobatmenu{LastPage}{$\blacktriangleright\!\blacktriangleright$}
+%\hspace{2mm}
+%\Acrobatmenu{Close}{$\times$} 
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remove the Chapter # heading
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    %\ifnum \c@secnumdepth >\m@ne
+    %    \huge\bfseries \@chapapp\space \thechapter
+    %    \par\nobreak
+    %    \vskip 20\p@
+    %\fi
+    \interlinepenalty\@M
+    \Huge \bfseries \thechapter \space \space #1\par\nobreak
+    \vskip 40\p@
+  }}
+  \makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PARAGRAPHS
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.2cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% CONTENTS DEPTH
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% DISPLAY CODE :
+%\usepackage[numbered]{../styles/mcode}
+\let\origthelstnumber\thelstnumber
+\makeatletter
+\newcommand*\Suppressnumber{%
+  \lst@AddToHook{OnNewLine}{%
+    \let\thelstnumber\relax%
+     \advance\c@lstnumber-\@ne\relax%
+    }%
+}
+
+\newcommand*\Reactivatenumber{%
+  \lst@AddToHook{OnNewLine}{%
+   \let\thelstnumber\origthelstnumber%
+   \advance\c@lstnumber\@ne\relax}%
+}
+\makeatother
+\newcommand*\DNumber{\addtocounter{lstnumber}{-1}}
+\newcommand*\SetLstNumber[1]{\setcounter{lstnumber}{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% definition, definitions, theorem, procedure environment, titledboxtext
+\newenvironment{titledboxtext}[1]
+{ \begin{mdframed}[backgroundcolor=blue!10, nobreak=true, frametitle={#1}] }
+{ \end{mdframed} }
+
+\newenvironment{definition}
+{ \begin{mdframed}[backgroundcolor=blue!10, nobreak=true, frametitle={Definition}] }
+{ \end{mdframed} }
+
+\newenvironment{definitions}
+{ \begin{mdframed}[backgroundcolor=blue!10, nobreak=true, frametitle={Definitions}] }
+{ \end{mdframed} }
+
+\newenvironment{theorem}[1]
+{ \begin{mdframed}[backgroundcolor=blue!10, nobreak=true, frametitle={Theorem: #1}] }
+{ \end{mdframed} }
+
+\newenvironment{procedure}[1]
+{ \begin{mdframed}[backgroundcolor=blue!10, nobreak=true, frametitle={Procedure: #1}] }
+{ \end{mdframed} }
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% objectives, material links
+\newenvironment{objectives}
+{ \begin{mdframed}[backgroundcolor=green!10, frametitle={Objectives}] }
+{ \end{mdframed} }
+
+\newenvironment{direction}
+{ \begin{mdframed}[backgroundcolor=green!10] }
+{ \end{mdframed} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% exercises
+\newcounter{exercises}
+%\def\theexercise{\thesection.\arabic{exercises}}
+
+\newenvironment{exercises}
+{ \refstepcounter{exercises} 
+  \begin{mdframed}[backgroundcolor=black!10, frametitle={Exercise \theexercises}]
+  \begin{enumerate} }
+{ \end{enumerate} 
+  \end{mdframed} 
+}
+
+\newenvironment{assignment_exercises}
+{ \refstepcounter{exercises} 
+  \begin{mdframed}[backgroundcolor=black!10, frametitle={Exercise \theexercises}]
+  \begin{enumerate} }
+{ \end{enumerate} 
+  \end{mdframed} 
+}
+\newcommand{\question}{\item}
+\newcommand{\solution}{ \par {\bf Solution:} \\ }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% summary
+\newcommand{\summary}{\par {\bf Summary}\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% counters
+\numberwithin{equation}{section}
+\numberwithin{exercises}{section}
+\numberwithin{figure}{section}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% math and english definitions
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Arg}{\text{arg}}
+\newcommand{\degrees}{^{\circ}}
+\newcommand{\cosec}{\text{cosec}}
+\renewcommand\Re{\operatorname{Re}}
+\renewcommand\Im{\operatorname{Im}}
+
+\newcommand{\ie}{{\em i.e. }}
+\newcommand{\eg}{{\em e.g. }}
+\newcommand{\cf}{{\em c.f. }}
+\newcommand{\etc}{{\em etc. }}
+
+\renewcommand{\i}{\mathbf{i}}
+\renewcommand{\j}{\mathbf{j}}
+\renewcommand{\k}{\mathbf{k}}
+
+\newcommand{\matlab}{MATLAB }
+\newcommand{\simbiology}{SimBiology }
+
+%%%%%%%%%%   minipage widths for some of the tableaux
+\newlength{\mpw}
+\setlength{\mpw}{4in}
+
+%%%%%%%%%% OLD OU DEFINITIONS
+% All these instances should eventually be replaced
+
+\newcommand{\subdefinition}{}
+
+%\newcommand{\donumber}{}
+\newcommand{\dint}{\int}
+%\newcommand{\tablecaption}[1]{ }
+\newcommand{\bfitn}{{\bf n} }
+%\renewcommand{\,}{}
+\newcommand{\bfcdot}{\cdot}
+
+% % redefine \< \>
+\def\<#1\>{\begin{align}#1\end{align}}
+% % redefine \[ \]
+\def\[#1\]{\begin{eqnarray*}#1\end{eqnarray*}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% example
+\newcounter{example}
+\newenvironment{example}[1]
+{ \refstepcounter{example} 
+  \begin{mdframed}[backgroundcolor=black!10, frametitle={Example \theexample : #1}]
+  %\begin{enumerate} 
+}
+{ 
+  %\end{enumerate} 
+  \end{mdframed} 
+}
+\numberwithin{example}{section}
+
+\newcommand{\subactivity}{\par \vspace{0.2cm} $\bullet$ }
+%\newcommand{\summary}{\par {\bf Summary}\\}
+%\newcommand{\answer}{\par \vspace{0.2cm} {\bf Answer:}\par}
+
+%\renewcommand{\i}{\mathbf{i}}
+%\renewcommand{\j}{\mathbf{j}}
+
+\newcommand{\tablelabel}{}
+\newcommand{\putendsymbol}{}
+\newcommand{\tablecaption}[1]{ }
+\newcommand{\donumber}{}
+\makeatletter

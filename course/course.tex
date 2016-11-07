@@ -1,0 +1,51 @@
+\documentclass[12pt,a4paper]{report}
+\title{}
+\author{}
+\date{}
+
+\usepackage{sysmicstyle}
+\usepackage{environ}
+\usepackage[backend=biber, bibencoding=utf8, useprefix=true,
+			uniquename=false, uniquelist=false,
+			style=authoryear, firstinits=true, dashed=false,
+			maxcitenames=2, maxbibnames=99]{biblatex}
+\usepackage{hyperref}
+\usepackage[noabbrev]{cleveref}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\hypersetup{colorlinks, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\addbibresource{bibliography.bib}
+\addbibresource{bib_additional.bib}
+
+\NewEnviron{marginnoteblock}{\marginnote{\BODY}}
+
+\begin{document}
+%% --------------------------------------------------------------
+\tableofcontents
+
+\chapter{Introduction to R}
+\input{intro-to-R/intro-to-R}
+
+\chapter{How to think about statistics}
+\input{think-stats/what-is-a-statistic}
+
+\chapter{Statistical theory and data representation}
+\input{statistical-theory/non-parameteric}
+
+\chapter{The statistics-experimental cycle}
+\input{stats-cycle/introduction}
+
+\chapter{Tumour xenograft experiments and data}
+\input{xenograph/statistical-background}
+
+% \chapter{Tumour xenograft experiments and data}
+% \input{xenograph/statistical-background}
+
+\chapter{Algorithms}
+\input{xenograph/algorithms}
+
+%% --------------------------------------------------------------
+\printbibliography
+
+\end{document}

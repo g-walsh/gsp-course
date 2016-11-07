@@ -1,0 +1,1882 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style/minimal.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<h1 id="tumour-xenograft"><span class="header-section-number">1</span> Tumour xenograft</h1>
+<h2 id="introductions"><span class="header-section-number">1.1</span> Introductions</h2>
+<p>In a typical tumour xenograft experiment, the animals are randomised between the control and treatment lines. Once human tumour samples are administrated on the animals on both groups, the responses are monitored over the follow-up period resulting in a set of individual trajectories within each treatment line. If the tumour size exceeds the level where further continuation of the experiment is against animal welfare conventions, the animal is culled. The experiment stops once the end of follow-up period is reached. The resulting sample have a longitudinal form, where at each time point there is a set of the tumour measurements recorded for the alive animals in the sample over the follow-up period. shows a typical outcome of such experiment outcome represented with the tumour volume changes over time.</p>
+<div class="figure">
+<img src="figures/raw_trajectories.png" alt="Empirical tumour volume (mm^3) trajectories from in-vivo tumour xenograft experiment." />
+<p class="caption">Empirical tumour volume (mm<span class="math inline">\(^3\)</span>) trajectories from <em>in-vivo</em> tumour xenograft experiment.<span data-label="raw_trajectories"></span></p>
+</div>
+<p>The observed differences between the measurements in the control and treatment groups constitute the therapy effectiveness. The therapies can differ in terms of the dose level or active agent type or both. The interest might be also in a differences between therapy lines. In majority of cases, the resulting tumour volume data frequently exhibit heterogeneous responses with numerous outliers and hardly linear growth patterns. Therefore, statistical assessment of the therapy effectiveness becomes a challenging task.</p>
+<h2 id="the-data"><span class="header-section-number">1.2</span> The data</h2>
+<h3 id="selection-of-empirical-evidence"><span class="header-section-number">1.2.1</span> Selection of empirical evidence</h3>
+<p>The tumour volume readings as a response to therapies may be a subject for selection before the statistical analysis of treatment effects is carried out. For the analysed sample the period between day 6 and day 27 was selected. The beginning of the sample corresponds to the day the animals got randomised to the control (Saline) and Treatment lines. The last day of the selected sample is the last time-point where at least two tumour volume readings are available for each animal.</p>
+<div class="figure">
+<img src="figures/raw_trajectories_reduced.png" alt="Empirical tumour volume (mm^3) trajectories from in-vivo tumour xenograft experiment for selected time-points." />
+<p class="caption">Empirical tumour volume (mm<span class="math inline">\(^3\)</span>) trajectories from <em>in-vivo</em> tumour xenograft experiment for selected time-points.<span data-label="raw_trajectories_reduced"></span></p>
+</div>
+<h3 id="exponential-tumour-growth"><span class="header-section-number">1.2.2</span> Exponential tumour growth</h3>
+<h3 id="normalisation"><span class="header-section-number">1.2.3</span> Normalisation</h3>
+<p>It is recommended that the tumour volume data get normalised before the visual and representative analysis is carried out <span class="citation">(Heitjan, Manni, and Santen 1993; Demidenko 2010)</span>. Tumour volume distribution is usually skewed and influenced by the outliers, in particular if sample is small, leading to imprecise outcomes and power reductions. Making the distribution more Gaussian looking arginhelps in reducing this bias and leads to a better power and more statistically significant treatment effects. The most popular normalising technique is a log-transformation. It is stabilising the tumour volume variance and given its monotonic property it does not affect the data content. Therefore it is recommended but may require results to be back-transformed once interpreted. presents the log<span class="math inline">\(_{10}\)</span>-transformed original data (see [raw_trajectories]) over the selected follow-up sub-period. Given that the log function is not defined for zero volumes they needs to be imputed as zeros on a log-scale. The follow-up period was reduced to the most relevant part. It starts on day 6 when the animals get randomised among the treatment groups, and ends-up on day 27 where there are at least two alive animals per treatment line. The log-transformed trajectories present an exponential growth pattern.</p>
+<div class="figure">
+<img src="figures/raw_trajectories_log_reduced_follow-up.png" alt="Empirical tumour volume (mm^3) trajectories after log_{10}-transformation." />
+<p class="caption">Empirical tumour volume (mm<span class="math inline">\(^3\)</span>) trajectories after log<span class="math inline">\(_{10}\)</span>-transformation.<span data-label="raw_trajectories_log_reduced_follow-up"></span></p>
+</div>
+<h3 id="imputation"><span class="header-section-number">1.2.4</span> Imputation</h3>
+<p>The xenograft experiments do not provide complete longitudinal samples. The prominent part stands for informed missing outcomes, resulting from the cases when tumours reach the levels where due to ethical reasons animal needs to be culled. Reduced sample may be a problem for some statistical techniques, which require balanced samples. The analysis might be carried out on reduced empirical evidence, which limits representativeness of the outcomes. Alternatively, the informed missing data can be imputed to increase eligibility of available sample evidence for statistical testing. However, it may lead to misleading or contradictory outcomes regarding treatment effect. provide the mean and standard error bars for the raw tumour volume data and after the last-observation-carried-forward (LOCF) imputation applied, respectively.</p>
+<div class="figure">
+<img src="figures/error_bars_log_reduced_follow-up.png" alt="Mean log_{10}-transformed tumour volume (mm^3) and standard errors for particular treatment lines over the follow-up time-points." />
+<p class="caption">Mean log<span class="math inline">\(_{10}\)</span>-transformed tumour volume (mm<span class="math inline">\(^3\)</span>) and standard errors for particular treatment lines over the follow-up time-points.<span data-label="error_bars_log_reduced_follow-up"></span></p>
+</div>
+<div class="figure">
+<img src="figures/error_bars_log_LOCF_reduced_follow-up.png" alt="Mean log_{10}-transformed tumour volume (mm^3) and standard errors for particular treatment lines over the follow-up after last-observation-carried-forward (LOCF) imputation." />
+<p class="caption">Mean log<span class="math inline">\(_{10}\)</span>-transformed tumour volume (mm<span class="math inline">\(^3\)</span>) and standard errors for particular treatment lines over the follow-up after last-observation-carried-forward (LOCF) imputation.<span data-label="error_bars_log_LOCF_reduced_follow-up"></span></p>
+</div>
+<p>Once therapeutic effect of Treatment A is clear regardless the data were considered in their raw or imputed form, the effect of Treatment B differs in both cases. If the data is left unchanged, the Control and Treatment B outcomes do not differ from each other, indicating a lack of therapeutic effect from the treatment. If the outcomes are compared on the data imputed with LOCF method both outcomes separate showing a treatment window between 15 and 27 days post implantation. Imputation artificially increased separation between the Control and Treatment B group tumour volumes, such that the test shown the statistically significant effect from the therapy. Therefore, imputation of the informed missing needs to be carefully considered as it may leads to faulty assessment of treatment effects. It is not recommended for tumour xenograft studies. The credit should be given to statistical methods which utilizes a whole empirical evidence without a needs for data imputation.</p>
+<h2 id="statistical-analysis"><span class="header-section-number">1.3</span> Statistical analysis</h2>
+<p>Presented statistical methods consider methodologies which take a complete empirical evidence into account once assessing treatment efficacy. In particular, we consider a permutation-based test, and mixed-effect modeling approach. The primary focus will be on the efficacy of the TrA and TrB lines over the Saline group. Then, we compare the Tumour Volume responses in the TrB and TrA therapy lines.</p>
+<h4 id="anova"><span class="header-section-number">1.3.0.1</span> ANOVA</h4>
+<p>The common practice in the analysis of the treatment efficacy relies on comparing the tumour responses between the treatment groups using the analysis of variance (ANOVA) or its ranked based analog Kruskal-Wallis test. The tumour volumes among the treatment groups are compared each day and the resulting p-values, corrected for the multiple testing bias (e.g.&#160;with Bonferroni&#8217;s factor), are reported. Treatment effects are detected when the resulting p-values are significant at pre-specified significance level. Application of analysis of variance requires the daily samples to fulfil the statistical assumptions regarding the symmetry of distributions, and completeness of the daily samples. <div class="marginnote"><p> Normality of distribution is difficult to be assessed given the small sample size. Therefore, after <span class="citation">(Heitjan, Manni, and Santen 1993)</span>, symmetry of distribution might be consider as a primary feature of normality. </p></div></p>
+<p>The first requirement is usually reached by a normalising-transformation. Since completeness of the evidence is not reached at each follow-up day, and the imputation was found to affect the data significantly, the analysis concerns only the follow-up day with complete samples. The first animal drop out the study on day 15, which constitutes the last day for the (balanced) 1-way ANOVA with Treatment. Given the length of the follow-up (up to day 34) such an evidence is not considered to be relevant for a credible assessment of the treatment efficacy. Therefore the ANOVA approach is not used in the analysis.</p>
+<h4 id="log-rank-test"><span class="header-section-number">1.3.0.2</span> Log-rank test</h4>
+<p>The time-points when the tumours reached a certain end-point (e.g.doubled from the pre-treatment level) are compared with survival analysis tools. The therapy is more effective if it prolongs significantly the time the end-point is reached. Unfortunately, such an approach discards the tumour growth dynamics, and therefore cannot be considered as effective in helping to understand the underlying tumour biology, an important aspect in pre-clinical development. It has also a limited applicability if sample tumours do not reach the end points over the follow-up period.</p>
+<h3 id="permutation-based-test"><span class="header-section-number">1.3.1</span> Permutation-based test</h3>
+<p>The alternative approach for the analysis of variance.</p>
+<p>The permutation-base testing is widely applied as an alternative to classical null hypothesis tests. The procedure relies on a series of repeated operations on the permuted sample data, resulting with a set of test statistics. The proportion of outcomes which exceed the value acquired on the original (un-permuted) sample constitutes the significance of the difference between the groups <span class="citation">(Ninness et al. 2002)</span>. Therefore, the permutation-based tests are considered to be distribution- and assumption-free. These tests can use different metrics to assess the group differences. <span class="citation">Peres-Neto and Olden (2001; Ludbrook and Dudley 1998)</span> show that permutation-based approach has a superior to classical approaches power once the sample size is insufficient or the statistical assumptions for &#8216;traditional&#8217; testing (e.g.t-, F-test) are violated. Numerous versions of permutation tests were proposed to assess the tumour growth curve differences (e.g. <span class="citation">Koziol et al. (1981; Rocchetti and De Nicolao 1990)</span>). We adopt a relatively recent approach from <span class="citation">Elso et al. (2004)</span> to test the differences between the tumour growth curves in our pre-clinical <em>in-vivo</em> experiments. The particular steps of the test we apply is described in [Appendix_Permutation_test]. The presented permutation-based test has some important advantages in the analysis of pre-clinical tumour growth inhibition studies. First of all, it does not require any particular statistical assumptions to be fulfilled. Then, it is insensitive to missing data (no imputation required). It allows for comparing evidence from multiple days, and by a proper weighting scheme, it gives more credit to the complete (representative) samples. The procedure is implemented in the R statistical modelling packages <em>statmod</em> <span class="citation">(G. Smyth et al. 2013)</span>. Up to authors&#8217; best knowledge, the test has not been applied to test the difference between tumour curves in the xenograft experiments. delivers the test results for the whole sample (day 6&#8211;day 27). To calculate the p-values <span class="math inline">\(S=10^5\)</span> permutations were used, and Holm&#8217;s correction was applied to account for a potential multiple testing bias.</p>
+<table>
+<caption>Permutation-based test outcome for log<span class="math inline">\(_{10}\)</span>-transformed tumour volume (mm<span class="math inline">\(^3\)</span>) differences between the treatment lines over a whole selected follow-up period. <span class="math inline">\(S=10^5\)</span> permutations were used to calculate the p-values. Holm&#8217;s correction was applied to address the multiple testing bias.<span data-label="permutation_test_table_log_whole_follow-up"></span></caption>
+<thead>
+<tr class="header">
+<th align="left">Group1</th>
+<th align="left">Group2</th>
+<th align="right">t-value</th>
+<th align="right">p-value</th>
+<th align="right">p-value (Holm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Saline</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="right">1.935</td>
+<td align="right">0.001</td>
+<td align="right">0.003</td>
+</tr>
+<tr class="even">
+<td align="left">Saline</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="right">0.743</td>
+<td align="right">0.157</td>
+<td align="right">0.314</td>
+</tr>
+<tr class="odd">
+<td align="left">TrA 4mg/kg</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="right">-0.646</td>
+<td align="right">0.243</td>
+<td align="right">0.314</td>
+</tr>
+</tbody>
+</table>
+<p>To find the treatment effect window, the permutation test was carried out over different follow-up subsamples starting from day 6 onwards, and ending on day 27. delivers the resulting (Holm&#8217;s corrected) p-values for the tumour inhibition differences observed for the treatment pairs. Results show consistent and significant Treatment A effect. The evidence from Treatment B is not significant on 0.05 level in none of the cases. The difference between Treatment A and B effects are not significantly different either. These two approaches work well once used together complementing their findings. The example analysis was carried out with the R statistical computing language <span class="citation">(R Core Team 2013)</span>.</p>
+<div class="figure">
+<img src="figures/p-values_log.png" alt="Adjusted (Holm&#8217;s correction) p-values from the permutation test of the differences between log_{10}-transformed tumour volumes (mm^3) over sub-periods ending-up on Day 27. Starting days are on the horizontal axis. To calculate the p-values S=10^5 permutations were used." />
+<p class="caption">Adjusted (Holm&#8217;s correction) p-values from the permutation test of the differences between log<span class="math inline">\(_{10}\)</span>-transformed tumour volumes (mm<span class="math inline">\(^3\)</span>) over sub-periods ending-up on Day 27. Starting days are on the horizontal axis. To calculate the p-values <span class="math inline">\(S=10^5\)</span> permutations were used.<span data-label="p-values_log"></span></p>
+</div>
+<h3 id="mixed-effect-model"><span class="header-section-number">1.3.2</span> Mixed-effect model</h3>
+<p>The following skeleton of the mixed-effect model was used to assess the treatment efficacy <span class="citation">(Laajala et al. 2012; Demidenko 2010)</span>: <span class="math display">\[\begin{aligned}
+    \label{LME}
+    \log_{10}\text{TV} = a_{1} + a_{2}\text{Tp} + a_{3}\text{Tr} + a_{4}\text{Tp : Tr} + (1|\text{No})\end{aligned}\]</span> where:</p>
+<ul>
+<li><p>&#8216;TV&#8217; is a tumour volume (mm<span class="math inline">\(^3\)</span>)</p></li>
+<li><p>&#8216;Tp&#8217; readout time-point</p></li>
+<li><p>&#8216;Tr&#8217; stands for treatment line</p></li>
+<li><p>&#8216;No&#8217; is an tumour number.</p></li>
+</ul>
+<p>Symbol &#8216;:&#8217; denotes the interaction between treatment and timepoint. We consider two types of the [LME]: with a linear time trend; and with repeated measurements.</p>
+<h4 id="model-with-linear-time-trend"><span class="header-section-number">1.3.2.1</span> Model with linear time trend</h4>
+<p>Within the [LME] framework, consider time trend lines for two treatment groups: <span class="math display">\[\begin{aligned}
+    \text{Tr=0 (baseline)}&amp;:\log_{10}\text{TV} = a_{1} + a_{2}\text{Tp} \\
+    \text{Tr=1 (investigated)}&amp;:\log_{10}\text{TV} = a_{1} + a_{3} + (a_{2}+ a_{4})\text{Tp}.\end{aligned}\]</span> In the investigated trend line parameters <span class="math inline">\(a_{3}\)</span> and <span class="math inline">\(a_{4}\)</span> affect the intercept and slope parameters of the baseline model, respectively. These parameters will be used in the assessment of the treatment effect resulting from the investigated therapy. In particular, after <span class="citation">(Laajala et al. 2012)</span>, the offset parameter <span class="math inline">\(a_{3}\)</span> represents the changes in the horizontal base level profiles, and the interaction term parameter <span class="math inline">\(a_{4}\)</span> the change in the time trend. The latter effect will be expressed as the effective growth inhibition rate (GIR): <span class="math display">\[\begin{aligned}
+    \text{GIR}:= 100 \times \left|\frac{a_{4}}{a_{2}}\right| \%\end{aligned}\]</span> will be used as a primary measure of the treatment effect from the investigated therapy line.</p>
+<p>The model was applied to the experimental data. provides the [LME] fixed effect outcomes if the efficacy of the treatment lines is considered with respect to the Saline. On a log<span class="math inline">\(_{10}\)</span>-basis, the Tumour Volume in the Saline group increases by 0.171 on average per day. The baseline slope gets (on average) reduced by 0.151 (<span class="math inline">\(p&lt;0.001\)</span>) and 0.027 (p=0.203) in the TrA and TrB groups, respectively, but only the first effect remains significant on the 0.05 level. These results translate into 88.2% growth inhibition rate in TrA line, where usually at least 55% reduction is considered as a significant improvement <span class="citation">(Cheng and Wu 2010)</span>.</p>
+<p>provides the [LME] fixed effect outcomes if the efficacy of TrA line is considered with respect to the TrB. The average Tumour Volume growth in the TrB (baseline) group is 0.145 (<span class="math inline">\(p&lt;0.001\)</span>) on the log<span class="math inline">\(_{10}\)</span> scale. The TrA (investigated) therapy reduces significantly the baseline growth by 0.124 (<span class="math inline">\(p&lt;0.001\)</span>) which translates into a GIR=85.5%.</p>
+<p>Treatment TrA significantly improves over both the Saline and TrB groups in terms of the linear Tumour Volume growth reduction expressed by the growth inhibition rates of at least of 85%. Treatment effect within TrB group over the Saline is not statistically significant at 5% level.</p>
+<table>
+<caption>Mixed effect model with linear trend fixed effect parameters with diagnostics. The baseline treatment group is the control one (Saline).<span data-label="LME_trend_TrA_TrB_baseline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.265</td>
+<td align="center">0.106</td>
+<td align="center">89.8</td>
+<td align="center">11.981</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point</td>
+<td align="center">0.171</td>
+<td align="center">0.015</td>
+<td align="center">207.2</td>
+<td align="center">11.674</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.444</td>
+<td align="center">0.149</td>
+<td align="center">89.2</td>
+<td align="center">2.979</td>
+<td align="center">0.004</td>
+</tr>
+<tr class="even">
+<td align="left">TreatmentTrB 4mg/kg</td>
+<td align="center">-0.050</td>
+<td align="center">0.149</td>
+<td align="center">89.6</td>
+<td align="center">-0.334</td>
+<td align="center">0.739</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.151</td>
+<td align="center">0.021</td>
+<td align="center">208.5</td>
+<td align="center">-7.271</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.027</td>
+<td align="center">0.021</td>
+<td align="center">209.8</td>
+<td align="center">-1.277</td>
+<td align="center">0.203</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mixed effect model with linear trend: fixed effect parameters with diagnostics. The baseline treatment group is TrA 4mg/kg.<span data-label="LME_trend_TrA_basline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.265</td>
+<td align="center">0.092</td>
+<td align="center">60.9</td>
+<td align="center">13.799</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point</td>
+<td align="center">0.171</td>
+<td align="center">0.013</td>
+<td align="center">139.7</td>
+<td align="center">13.356</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.444</td>
+<td align="center">0.130</td>
+<td align="center">60.5</td>
+<td align="center">3.426</td>
+<td align="center">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">time-point:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.151</td>
+<td align="center">0.018</td>
+<td align="center">140.6</td>
+<td align="center">-8.316</td>
+<td align="center">0.000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mixed effect model with linear trend: fixed effect parameters with diagnostics. The baseline treatment group is TrA 4mg/kg.<span data-label="LME_trend_TrB_basline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.263</td>
+<td align="center">0.107</td>
+<td align="center">54.7</td>
+<td align="center">11.854</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point</td>
+<td align="center">0.172</td>
+<td align="center">0.014</td>
+<td align="center">137.3</td>
+<td align="center">11.853</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">TreatmentTrB 4mg/kg</td>
+<td align="center">-0.048</td>
+<td align="center">0.151</td>
+<td align="center">54.6</td>
+<td align="center">-0.320</td>
+<td align="center">0.750</td>
+</tr>
+<tr class="even">
+<td align="left">time-point:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.027</td>
+<td align="center">0.021</td>
+<td align="center">139.0</td>
+<td align="center">-1.315</td>
+<td align="center">0.191</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Mixed effect model with linear trend fixed effect parameters with diagnostics. The baseline treatment group is TrB 4mg/kg.<span data-label="LME_trend_TrA_baseline_TrB"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.215</td>
+<td align="center">0.117</td>
+<td align="center">63.5</td>
+<td align="center">10.353</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point</td>
+<td align="center">0.145</td>
+<td align="center">0.017</td>
+<td align="center">140.5</td>
+<td align="center">8.562</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.494</td>
+<td align="center">0.166</td>
+<td align="center">63.2</td>
+<td align="center">2.982</td>
+<td align="center">0.004</td>
+</tr>
+<tr class="even">
+<td align="left">time-point:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.124</td>
+<td align="center">0.024</td>
+<td align="center">139.9</td>
+<td align="center">-5.253</td>
+<td align="center">0.000</td>
+</tr>
+</tbody>
+</table>
+<h4 id="model-with-repeated-measurements"><span class="header-section-number">1.3.2.2</span> Model with repeated measurements</h4>
+<p>If time-point Tp in [LME] is considered as a factor/class, the model assesses the therapy effectiveness for each day with respect to the baseline treatment outcomes at a particular time-point after tumour cells implantation. Such specification allows for a precise assessment of the treatments effects for each follow-up day and (if available) an identification of a &#8216;treatment window&#8217;, a period where the drug was effective over the baseline group. These results complement the outcomes of the trend analysis.</p>
+<p>provides the fixed-effect model outcomes if the Saline group is considered as a baseline treatment, with reference time-point at day 6. We mainly concentrate on the interaction parameter values (<span class="math inline">\(\alpha_{4}\)</span>), which allow for assessment of therapeutic effects for each treatment line and time-point. The p-values suggest that the TrA shows its efficacy over the Saline from day 17 onwards at the 5% significance. TrB line is not effective over the Saline. These parameter values reflect the differences between the (log<span class="math inline">\(_{10}\)</span>-transformed) Tumour Volume model least-squares means estimated at baseline and investigated time-points for the control and investigated treatment lines: <span class="math display">\[\begin{aligned}
+    \alpha_{4} = TV_{2,2} - TV_{1,2} - (TV_{2,1} - TV_{1,1})\end{aligned}\]</span> where:</p>
+<table>
+<caption>Selected least-squares <span class="math inline">\(\log_{10}\)</span> transformed Tumour Volume (<span class="math inline">\(TV\)</span>) mean values inferred from the [LME].<span data-label="effects"></span></caption>
+<thead>
+<tr class="header">
+<th align="center"></th>
+<th align="center">Tp baseline</th>
+<th align="center">Tp investigated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Tr baseline</td>
+<td align="center"><span class="math inline">\(TV_{1,1}\)</span></td>
+<td align="center"><span class="math inline">\(TV_{1,2}\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Tr investigated</td>
+<td align="center"><span class="math inline">\(TV_{2,1}\)</span></td>
+<td align="center"><span class="math inline">\(TV_{2,2}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The least-squares means for the model where Saline is considered as a baseline are provided in . For example, the treatment TrA for day 17 interaction term parameter value of <span class="math inline">\(-0.620\)</span> (see corresponding ) equals <span class="math inline">\(1.911 - 2.466 - ( 1.489 - 1.424)\)</span>. Such a value suggests a greater by 0.62 reduction of the log<span class="math inline">\(_{10}\)</span> Tumour Volume at the investigated time-point compared to the baseline. If values in are considered as log<span class="math inline">\(_{10}\)</span> values of mean tumour volumes: <span class="math display">\[\begin{aligned}
+    \log_{10}TV_{2,2} - \log_{10}TV_{1,2} - (\log_{10}TV_{2,1} - \log_{10}TV_{1,1}) = \alpha_{4}\end{aligned}\]</span> then the above align translates into: <span class="math display">\[\begin{aligned}
+    \label{effect_size}
+    \frac{TV_{2,2}\;TV_{1,1}}{TV_{1,2}\;TV_{2,1}} = 10^{\alpha_{4}}.\end{aligned}\]</span> allows for interpretation of <span class="math inline">\(\alpha_{4}\)</span> as of the relative change of T/C measure observed at the investigated time-point to the baseline one. With that respect the observed effect on day 17 from TrA equals to 24%.</p>
+<p>A more straightforward assessment of the treatment effect at the investigated time-point (Tp investigated) can be acquired from the least-squares means as: <span class="math display">\[\begin{aligned}
+    100\times \left(1-\frac{TV_{2,2}}{TV_{1,2}}\right) \%,\end{aligned}\]</span> which in the case of day 17 for treatment A (Tr A) equals to <span class="math inline">\(22.5\% (=1 - 1.911/2.466)\)</span> on the log<span class="math inline">\(_{10}\)</span> scale, and this measure is suggested to be used. For the following days, the effects are <span class="math inline">\(33.4\%\)</span> (day 20), <span class="math inline">\(42.9\%\)</span> (day 22), <span class="math inline">\(33.7\%\)</span> (day 24), and <span class="math inline">\(51.7\%\)</span> (day 27). Similar analysis can be carried out for the model where the efficacy of TrA is considered with respect to TrB, see [LME_factor_TrA_baseline_TrB,effects_LME_factor_TrA_baseline_TrB].</p>
+<table>
+<caption>Linear mixed effect model fixed effect parameters with diagnostics. The baseline treatment group is the control one (Saline) with reference time-point on day 6.<span data-label="LME_factor_TrA_TrB_baseline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.424</td>
+<td align="center">0.132</td>
+<td align="center">142.7</td>
+<td align="center">10.765</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7</td>
+<td align="center">0.151</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">0.908</td>
+<td align="center">0.365</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8</td>
+<td align="center">0.232</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">1.397</td>
+<td align="center">0.164</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10</td>
+<td align="center">0.476</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">2.861</td>
+<td align="center">0.005</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13</td>
+<td align="center">0.795</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">4.780</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15</td>
+<td align="center">1.034</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">6.219</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17</td>
+<td align="center">1.042</td>
+<td align="center">0.166</td>
+<td align="center">173.5</td>
+<td align="center">6.269</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20</td>
+<td align="center">1.341</td>
+<td align="center">0.173</td>
+<td align="center">174.5</td>
+<td align="center">7.765</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22</td>
+<td align="center">1.418</td>
+<td align="center">0.173</td>
+<td align="center">174.5</td>
+<td align="center">8.215</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24</td>
+<td align="center">1.388</td>
+<td align="center">0.206</td>
+<td align="center">177.2</td>
+<td align="center">6.728</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27</td>
+<td align="center">1.424</td>
+<td align="center">0.229</td>
+<td align="center">178.1</td>
+<td align="center">6.215</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.065</td>
+<td align="center">0.187</td>
+<td align="center">142.7</td>
+<td align="center">0.348</td>
+<td align="center">0.728</td>
+</tr>
+<tr class="odd">
+<td align="left">TreatmentTrB 4mg/kg</td>
+<td align="center">-0.356</td>
+<td align="center">0.187</td>
+<td align="center">142.7</td>
+<td align="center">-1.901</td>
+<td align="center">0.059</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.064</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-0.271</td>
+<td align="center">0.787</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.116</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-0.494</td>
+<td align="center">0.622</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.081</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-0.343</td>
+<td align="center">0.732</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.034</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-0.144</td>
+<td align="center">0.886</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.271</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-1.154</td>
+<td align="center">0.250</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.620</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">-2.638</td>
+<td align="center">0.009</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.989</td>
+<td align="center">0.244</td>
+<td align="center">174.5</td>
+<td align="center">-4.051</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.284</td>
+<td align="center">0.258</td>
+<td align="center">175.7</td>
+<td align="center">-4.980</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.013</td>
+<td align="center">0.292</td>
+<td align="center">177.3</td>
+<td align="center">-3.469</td>
+<td align="center">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.536</td>
+<td align="center">0.308</td>
+<td align="center">177.8</td>
+<td align="center">-4.981</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7:TreatmentTrB 4mg/kg</td>
+<td align="center">0.329</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">1.399</td>
+<td align="center">0.164</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8:TreatmentTrB 4mg/kg</td>
+<td align="center">0.411</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">1.746</td>
+<td align="center">0.083</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10:TreatmentTrB 4mg/kg</td>
+<td align="center">0.360</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">1.532</td>
+<td align="center">0.127</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13:TreatmentTrB 4mg/kg</td>
+<td align="center">0.090</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">0.382</td>
+<td align="center">0.703</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15:TreatmentTrB 4mg/kg</td>
+<td align="center">0.184</td>
+<td align="center">0.235</td>
+<td align="center">173.5</td>
+<td align="center">0.782</td>
+<td align="center">0.435</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17:TreatmentTrB 4mg/kg</td>
+<td align="center">0.187</td>
+<td align="center">0.240</td>
+<td align="center">174.2</td>
+<td align="center">0.779</td>
+<td align="center">0.437</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.071</td>
+<td align="center">0.250</td>
+<td align="center">175.2</td>
+<td align="center">-0.283</td>
+<td align="center">0.777</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.021</td>
+<td align="center">0.258</td>
+<td align="center">175.8</td>
+<td align="center">-0.081</td>
+<td align="center">0.935</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24:TreatmentTrB 4mg/kg</td>
+<td align="center">0.113</td>
+<td align="center">0.282</td>
+<td align="center">177.1</td>
+<td align="center">0.400</td>
+<td align="center">0.690</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.036</td>
+<td align="center">0.324</td>
+<td align="center">178.2</td>
+<td align="center">-0.110</td>
+<td align="center">0.912</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Linear mixed effect model: fixed effect parameters with diagnostics. The baseline treatment group is the control one (Saline).<span data-label="LME_factor_TrA_baseline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.424</td>
+<td align="center">0.105</td>
+<td align="center">80.3</td>
+<td align="center">13.514</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7</td>
+<td align="center">0.151</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">1.188</td>
+<td align="center">0.237</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8</td>
+<td align="center">0.232</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">1.829</td>
+<td align="center">0.070</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10</td>
+<td align="center">0.476</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">3.745</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13</td>
+<td align="center">0.795</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">6.258</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15</td>
+<td align="center">1.034</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">8.141</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17</td>
+<td align="center">1.042</td>
+<td align="center">0.127</td>
+<td align="center">117.0</td>
+<td align="center">8.207</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20</td>
+<td align="center">1.343</td>
+<td align="center">0.132</td>
+<td align="center">117.6</td>
+<td align="center">10.182</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22</td>
+<td align="center">1.421</td>
+<td align="center">0.132</td>
+<td align="center">117.6</td>
+<td align="center">10.770</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24</td>
+<td align="center">1.396</td>
+<td align="center">0.158</td>
+<td align="center">119.0</td>
+<td align="center">8.842</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27</td>
+<td align="center">1.434</td>
+<td align="center">0.175</td>
+<td align="center">119.5</td>
+<td align="center">8.179</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.065</td>
+<td align="center">0.149</td>
+<td align="center">80.3</td>
+<td align="center">0.437</td>
+<td align="center">0.663</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point7:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.064</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-0.355</td>
+<td align="center">0.723</td>
+</tr>
+<tr class="even">
+<td align="left">time-point8:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.116</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-0.647</td>
+<td align="center">0.519</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point10:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.081</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-0.449</td>
+<td align="center">0.655</td>
+</tr>
+<tr class="even">
+<td align="left">time-point13:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.034</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-0.188</td>
+<td align="center">0.851</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point15:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.271</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-1.511</td>
+<td align="center">0.133</td>
+</tr>
+<tr class="even">
+<td align="left">time-point17:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.620</td>
+<td align="center">0.180</td>
+<td align="center">117.0</td>
+<td align="center">-3.453</td>
+<td align="center">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point20:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.991</td>
+<td align="center">0.187</td>
+<td align="center">117.6</td>
+<td align="center">-5.314</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point22:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.291</td>
+<td align="center">0.197</td>
+<td align="center">118.2</td>
+<td align="center">-6.548</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point24:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.028</td>
+<td align="center">0.223</td>
+<td align="center">119.1</td>
+<td align="center">-4.603</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point27:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.554</td>
+<td align="center">0.236</td>
+<td align="center">119.3</td>
+<td align="center">-6.586</td>
+<td align="center">0.000</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Linear mixed effect model: fixed effect parameters with diagnostics. The baseline treatment group is the control one (Saline).<span data-label="LME_factor_TrB_baseline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.424</td>
+<td align="center">0.141</td>
+<td align="center">104.2</td>
+<td align="center">10.108</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7</td>
+<td align="center">0.151</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">0.832</td>
+<td align="center">0.407</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8</td>
+<td align="center">0.232</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">1.280</td>
+<td align="center">0.203</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10</td>
+<td align="center">0.476</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">2.622</td>
+<td align="center">0.010</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13</td>
+<td align="center">0.795</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">4.381</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15</td>
+<td align="center">1.034</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">5.700</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17</td>
+<td align="center">1.042</td>
+<td align="center">0.181</td>
+<td align="center">115.3</td>
+<td align="center">5.746</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20</td>
+<td align="center">1.339</td>
+<td align="center">0.188</td>
+<td align="center">116.1</td>
+<td align="center">7.108</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22</td>
+<td align="center">1.416</td>
+<td align="center">0.188</td>
+<td align="center">116.1</td>
+<td align="center">7.520</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24</td>
+<td align="center">1.383</td>
+<td align="center">0.225</td>
+<td align="center">118.2</td>
+<td align="center">6.147</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27</td>
+<td align="center">1.416</td>
+<td align="center">0.250</td>
+<td align="center">118.9</td>
+<td align="center">5.672</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">TreatmentTrB 4mg/kg</td>
+<td align="center">-0.356</td>
+<td align="center">0.199</td>
+<td align="center">104.2</td>
+<td align="center">-1.785</td>
+<td align="center">0.077</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point7:TreatmentTrB 4mg/kg</td>
+<td align="center">0.329</td>
+<td align="center">0.257</td>
+<td align="center">115.3</td>
+<td align="center">1.282</td>
+<td align="center">0.202</td>
+</tr>
+<tr class="even">
+<td align="left">time-point8:TreatmentTrB 4mg/kg</td>
+<td align="center">0.411</td>
+<td align="center">0.257</td>
+<td align="center">115.3</td>
+<td align="center">1.601</td>
+<td align="center">0.112</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point10:TreatmentTrB 4mg/kg</td>
+<td align="center">0.360</td>
+<td align="center">0.257</td>
+<td align="center">115.3</td>
+<td align="center">1.405</td>
+<td align="center">0.163</td>
+</tr>
+<tr class="even">
+<td align="left">time-point13:TreatmentTrB 4mg/kg</td>
+<td align="center">0.090</td>
+<td align="center">0.257</td>
+<td align="center">115.3</td>
+<td align="center">0.351</td>
+<td align="center">0.727</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point15:TreatmentTrB 4mg/kg</td>
+<td align="center">0.184</td>
+<td align="center">0.257</td>
+<td align="center">115.3</td>
+<td align="center">0.717</td>
+<td align="center">0.475</td>
+</tr>
+<tr class="even">
+<td align="left">time-point17:TreatmentTrB 4mg/kg</td>
+<td align="center">0.188</td>
+<td align="center">0.262</td>
+<td align="center">115.8</td>
+<td align="center">0.717</td>
+<td align="center">0.475</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point20:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.069</td>
+<td align="center">0.273</td>
+<td align="center">116.7</td>
+<td align="center">-0.253</td>
+<td align="center">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">time-point22:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.015</td>
+<td align="center">0.281</td>
+<td align="center">117.1</td>
+<td align="center">-0.054</td>
+<td align="center">0.957</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point24:TreatmentTrB 4mg/kg</td>
+<td align="center">0.122</td>
+<td align="center">0.307</td>
+<td align="center">118.1</td>
+<td align="center">0.398</td>
+<td align="center">0.691</td>
+</tr>
+<tr class="even">
+<td align="left">time-point27:TreatmentTrB 4mg/kg</td>
+<td align="center">-0.027</td>
+<td align="center">0.353</td>
+<td align="center">119.0</td>
+<td align="center">-0.076</td>
+<td align="center">0.939</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Linear mixed effect model fixed effect parameters with diagnostics. The baseline treatment group is TrB 4mg/kg with reference time-point on day 6.<span data-label="LME_factor_TrA_baseline_TrB"></span></caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="center">Coefficient</th>
+<th align="center">Std Error</th>
+<th align="center">df</th>
+<th align="center">t-value</th>
+<th align="center">p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="center">1.068</td>
+<td align="center">0.147</td>
+<td align="center">94.4</td>
+<td align="center">7.257</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point7</td>
+<td align="center">0.480</td>
+<td align="center">0.185</td>
+<td align="center">114.6</td>
+<td align="center">2.597</td>
+<td align="center">0.011</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point8</td>
+<td align="center">0.643</td>
+<td align="center">0.185</td>
+<td align="center">114.6</td>
+<td align="center">3.479</td>
+<td align="center">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">time-point10</td>
+<td align="center">0.836</td>
+<td align="center">0.185</td>
+<td align="center">114.6</td>
+<td align="center">4.525</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point13</td>
+<td align="center">0.885</td>
+<td align="center">0.185</td>
+<td align="center">114.6</td>
+<td align="center">4.788</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point15</td>
+<td align="center">1.218</td>
+<td align="center">0.185</td>
+<td align="center">114.6</td>
+<td align="center">6.592</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point17</td>
+<td align="center">1.229</td>
+<td align="center">0.192</td>
+<td align="center">115.4</td>
+<td align="center">6.405</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point20</td>
+<td align="center">1.270</td>
+<td align="center">0.201</td>
+<td align="center">116.2</td>
+<td align="center">6.319</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point22</td>
+<td align="center">1.397</td>
+<td align="center">0.213</td>
+<td align="center">116.8</td>
+<td align="center">6.563</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point24</td>
+<td align="center">1.501</td>
+<td align="center">0.213</td>
+<td align="center">116.8</td>
+<td align="center">7.049</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point27</td>
+<td align="center">1.388</td>
+<td align="center">0.255</td>
+<td align="center">117.8</td>
+<td align="center">5.450</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">TreatmentTrA 4mg/kg</td>
+<td align="center">0.421</td>
+<td align="center">0.208</td>
+<td align="center">94.4</td>
+<td align="center">2.021</td>
+<td align="center">0.046</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point7:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.393</td>
+<td align="center">0.261</td>
+<td align="center">114.6</td>
+<td align="center">-1.503</td>
+<td align="center">0.136</td>
+</tr>
+<tr class="even">
+<td align="left">time-point8:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.527</td>
+<td align="center">0.261</td>
+<td align="center">114.6</td>
+<td align="center">-2.016</td>
+<td align="center">0.046</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point10:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.441</td>
+<td align="center">0.261</td>
+<td align="center">114.6</td>
+<td align="center">-1.687</td>
+<td align="center">0.094</td>
+</tr>
+<tr class="even">
+<td align="left">time-point13:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.124</td>
+<td align="center">0.261</td>
+<td align="center">114.6</td>
+<td align="center">-0.474</td>
+<td align="center">0.637</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point15:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.455</td>
+<td align="center">0.261</td>
+<td align="center">114.6</td>
+<td align="center">-1.743</td>
+<td align="center">0.084</td>
+</tr>
+<tr class="even">
+<td align="left">time-point17:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.807</td>
+<td align="center">0.266</td>
+<td align="center">115.1</td>
+<td align="center">-3.029</td>
+<td align="center">0.003</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point20:TreatmentTrA 4mg/kg</td>
+<td align="center">-0.918</td>
+<td align="center">0.278</td>
+<td align="center">115.7</td>
+<td align="center">-3.305</td>
+<td align="center">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">time-point22:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.263</td>
+<td align="center">0.301</td>
+<td align="center">116.7</td>
+<td align="center">-4.196</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">time-point24:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.126</td>
+<td align="center">0.313</td>
+<td align="center">117.0</td>
+<td align="center">-3.596</td>
+<td align="center">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">time-point27:TreatmentTrA 4mg/kg</td>
+<td align="center">-1.501</td>
+<td align="center">0.343</td>
+<td align="center">117.5</td>
+<td align="center">-4.378</td>
+<td align="center">0.000</td>
+</tr>
+</tbody>
+</table>
+<div class="figure">
+<img src="figures/effects_LME_factor1.png" alt="Least squares means with 95% confidence intervals for each treatment line and time-point after cancer cells implantation." />
+<p class="caption">Least squares means with 95% confidence intervals for each treatment line and time-point after cancer cells implantation.<span data-label="effects_LME_factor"></span></p>
+</div>
+<table>
+<caption>Least squares means with 95% confidence intervals for each treatment line and time-point after cancer cells implantation.<span data-label="effects_LME_factor_TrA_TrB_baseline_Saline"></span></caption>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="left">Treatment</th>
+<th align="left">time-point</th>
+<th align="right">lsmean</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Saline</td>
+<td align="left">6</td>
+<td align="right">1.424</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.162</td>
+<td align="right">1.685</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">6</td>
+<td align="right">1.489</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.227</td>
+<td align="right">1.750</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">6</td>
+<td align="right">1.068</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">0.807</td>
+<td align="right">1.330</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Saline</td>
+<td align="left">7</td>
+<td align="right">1.575</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.313</td>
+<td align="right">1.836</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">7</td>
+<td align="right">1.576</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.315</td>
+<td align="right">1.837</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">7</td>
+<td align="right">1.548</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.287</td>
+<td align="right">1.810</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Saline</td>
+<td align="left">8</td>
+<td align="right">1.656</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.395</td>
+<td align="right">1.918</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">8</td>
+<td align="right">1.605</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.343</td>
+<td align="right">1.866</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">8</td>
+<td align="right">1.711</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.450</td>
+<td align="right">1.973</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">Saline</td>
+<td align="left">10</td>
+<td align="right">1.899</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.638</td>
+<td align="right">2.161</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">10</td>
+<td align="right">1.884</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.623</td>
+<td align="right">2.145</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">10</td>
+<td align="right">1.904</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.643</td>
+<td align="right">2.166</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="left">Saline</td>
+<td align="left">13</td>
+<td align="right">2.219</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.957</td>
+<td align="right">2.480</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">13</td>
+<td align="right">2.250</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.988</td>
+<td align="right">2.511</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">13</td>
+<td align="right">1.953</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.692</td>
+<td align="right">2.214</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="left">Saline</td>
+<td align="left">15</td>
+<td align="right">2.458</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">2.196</td>
+<td align="right">2.719</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">15</td>
+<td align="right">2.252</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.990</td>
+<td align="right">2.513</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">15</td>
+<td align="right">2.286</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">2.025</td>
+<td align="right">2.548</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="left">Saline</td>
+<td align="left">17</td>
+<td align="right">2.466</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">2.205</td>
+<td align="right">2.728</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">17</td>
+<td align="right">1.911</td>
+<td align="right">0.132</td>
+<td align="right">141.771</td>
+<td align="right">1.650</td>
+<td align="right">2.173</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">17</td>
+<td align="right">2.297</td>
+<td align="right">0.140</td>
+<td align="right">152.790</td>
+<td align="right">2.020</td>
+<td align="right">2.575</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="left">Saline</td>
+<td align="left">20</td>
+<td align="right">2.765</td>
+<td align="right">0.140</td>
+<td align="right">153.087</td>
+<td align="right">2.487</td>
+<td align="right">3.042</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">20</td>
+<td align="right">1.841</td>
+<td align="right">0.140</td>
+<td align="right">153.087</td>
+<td align="right">1.564</td>
+<td align="right">2.118</td>
+</tr>
+<tr class="even">
+<td align="right">24</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">20</td>
+<td align="right">2.338</td>
+<td align="right">0.150</td>
+<td align="right">164.207</td>
+<td align="right">2.041</td>
+<td align="right">2.635</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="left">Saline</td>
+<td align="left">22</td>
+<td align="right">2.842</td>
+<td align="right">0.140</td>
+<td align="right">153.087</td>
+<td align="right">2.565</td>
+<td align="right">3.119</td>
+</tr>
+<tr class="even">
+<td align="right">26</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">22</td>
+<td align="right">1.623</td>
+<td align="right">0.163</td>
+<td align="right">175.691</td>
+<td align="right">1.302</td>
+<td align="right">1.945</td>
+</tr>
+<tr class="odd">
+<td align="right">27</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">22</td>
+<td align="right">2.466</td>
+<td align="right">0.163</td>
+<td align="right">175.303</td>
+<td align="right">2.144</td>
+<td align="right">2.788</td>
+</tr>
+<tr class="even">
+<td align="right">28</td>
+<td align="left">Saline</td>
+<td align="left">24</td>
+<td align="right">2.812</td>
+<td align="right">0.180</td>
+<td align="right">185.452</td>
+<td align="right">2.456</td>
+<td align="right">3.168</td>
+</tr>
+<tr class="odd">
+<td align="right">29</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">24</td>
+<td align="right">1.865</td>
+<td align="right">0.180</td>
+<td align="right">185.230</td>
+<td align="right">1.508</td>
+<td align="right">2.221</td>
+</tr>
+<tr class="even">
+<td align="right">30</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">24</td>
+<td align="right">2.569</td>
+<td align="right">0.163</td>
+<td align="right">175.303</td>
+<td align="right">2.247</td>
+<td align="right">2.891</td>
+</tr>
+<tr class="odd">
+<td align="right">31</td>
+<td align="left">Saline</td>
+<td align="left">27</td>
+<td align="right">2.848</td>
+<td align="right">0.206</td>
+<td align="right">191.963</td>
+<td align="right">2.441</td>
+<td align="right">3.254</td>
+</tr>
+<tr class="even">
+<td align="right">32</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">27</td>
+<td align="right">1.377</td>
+<td align="right">0.180</td>
+<td align="right">185.230</td>
+<td align="right">1.020</td>
+<td align="right">1.733</td>
+</tr>
+<tr class="odd">
+<td align="right">33</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">27</td>
+<td align="right">2.456</td>
+<td align="right">0.206</td>
+<td align="right">191.832</td>
+<td align="right">2.049</td>
+<td align="right">2.863</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Least squares means with 95% confidence intervals for each treatment line and time-point after cancer cells implantation.<span data-label="effects_LME_factor_TrA_baseline_TrB"></span></caption>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="left">Treatment</th>
+<th align="left">time-point</th>
+<th align="right">lsmean</th>
+<th align="right">SE</th>
+<th align="right">df</th>
+<th align="right">lower.CL</th>
+<th align="right">upper.CL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">6</td>
+<td align="right">1.068</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">0.776</td>
+<td align="right">1.360</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">6</td>
+<td align="right">1.489</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.197</td>
+<td align="right">1.781</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">7</td>
+<td align="right">1.548</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.256</td>
+<td align="right">1.840</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">7</td>
+<td align="right">1.576</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.284</td>
+<td align="right">1.868</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">8</td>
+<td align="right">1.711</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.419</td>
+<td align="right">2.003</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">8</td>
+<td align="right">1.605</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.313</td>
+<td align="right">1.897</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">10</td>
+<td align="right">1.904</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.612</td>
+<td align="right">2.197</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">10</td>
+<td align="right">1.884</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.592</td>
+<td align="right">2.176</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">13</td>
+<td align="right">1.953</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.661</td>
+<td align="right">2.245</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">13</td>
+<td align="right">2.250</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.958</td>
+<td align="right">2.542</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">15</td>
+<td align="right">2.286</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.994</td>
+<td align="right">2.579</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">15</td>
+<td align="right">2.252</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.959</td>
+<td align="right">2.544</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">17</td>
+<td align="right">2.297</td>
+<td align="right">0.156</td>
+<td align="right">100.499</td>
+<td align="right">1.988</td>
+<td align="right">2.607</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">17</td>
+<td align="right">1.911</td>
+<td align="right">0.147</td>
+<td align="right">93.172</td>
+<td align="right">1.619</td>
+<td align="right">2.203</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">20</td>
+<td align="right">2.338</td>
+<td align="right">0.167</td>
+<td align="right">108.103</td>
+<td align="right">2.006</td>
+<td align="right">2.670</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">20</td>
+<td align="right">1.841</td>
+<td align="right">0.156</td>
+<td align="right">100.692</td>
+<td align="right">1.531</td>
+<td align="right">2.150</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">22</td>
+<td align="right">2.465</td>
+<td align="right">0.182</td>
+<td align="right">115.505</td>
+<td align="right">2.106</td>
+<td align="right">2.825</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">22</td>
+<td align="right">1.623</td>
+<td align="right">0.181</td>
+<td align="right">115.759</td>
+<td align="right">1.264</td>
+<td align="right">1.983</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">24</td>
+<td align="right">2.569</td>
+<td align="right">0.182</td>
+<td align="right">115.505</td>
+<td align="right">2.209</td>
+<td align="right">2.929</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">24</td>
+<td align="right">1.864</td>
+<td align="right">0.201</td>
+<td align="right">122.135</td>
+<td align="right">1.466</td>
+<td align="right">2.262</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="left">TrB 4mg/kg</td>
+<td align="left">27</td>
+<td align="right">2.456</td>
+<td align="right">0.230</td>
+<td align="right">126.553</td>
+<td align="right">2.002</td>
+<td align="right">2.910</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="left">TrA 4mg/kg</td>
+<td align="left">27</td>
+<td align="right">1.376</td>
+<td align="right">0.201</td>
+<td align="right">122.135</td>
+<td align="right">0.979</td>
+<td align="right">1.774</td>
+</tr>
+</tbody>
+</table>
+<h3 id="loess"><span class="header-section-number">1.3.3</span> LOESS</h3>
+<p>The approach was originally proposed and further developed by <span class="citation">Cleveland (1979; Cleveland and Devlin 1988)</span>. It derives from LOWESS (<em>LOcally WEighted Scatterplot Smoothing</em>) approach and corresponds to non-parametric regression methodology which relies on locally weighted regression to smooth the data <span class="citation">(Cleveland 1981)</span>. The approach relies on a k-neighbor least-squares regression fits carried for each follow-up time-point. The smoothing granularity is controlled by user-defined <em>smoothing parameter</em>. Particular steps of the LOESS algorithm are described in [Appendix_LOESS]. For the pre-clinical tumour growth inhibition studies, the LOESS approach allows for aggregation of the group trajectories into a smoothed trend line, tackling potential non-linearities of the tumour growth paths. It helps to moderate an influence of the outliers and informed missing data, which is particularly important given a small sample nature of the experiments. Precision of the smoothing can be assessed with 95% confidence interval. <span class="citation">Moses, Gale, and Altmann (1992)</span> applied LOESS approach to analyse the animal growth curves. We adapt it for the analysis of tumour growth data. The resulting curve provides a visual assessment of the deterministic part of the data variation. The separation between LOESS curves for treatment lines and their confidence interval bands may serve as an indication of possible treatment effects. To deliver robust and representative results fairly large and dense datasets are required. The method does not produce an accompanying closed-form mathematical formula (regression model) for the resulting curve. It comes within the default <em>stats</em> R package distribution, but is also available in majority of standard statistical packages available on the market.</p>
+<p>provides results for the LOESS fit within each treatment line, together with 95% confidence intervals. The smoothing parameter was fixed at a default 0.75 level. The tumour response patterns are more clear now. For both treatments and Control the LOESS fits start separating from day 13 onwards. However, only Treatment A shows on a strong therapeutic effect. The difference for that group becomes statistically significant from day 15 onwards, where the confidence intervals do not overlap each other. Response from Treatment B is mixed. There are two groups of animals where one of them manifests in a shrinking tumour volume, and responds to the treatment. The other one does not respond and tumour continues to grow roughly in line with the Control group pattern. The LOESS curves still shows some separation but given that the confidence interval overlaps with Control one, the observed therapeutic effect cannot be considered statistically significant. Application of permutation-based test solves that issue.</p>
+<div class="figure">
+<img src="figures/loess_trajectories_log_reduced_follow-up.png" alt="Log_{10}-transformed empirical tumour volume (mm^3) trajectories with superimposed treatment group LOESS fits with 95% confidence intervals. The smoothing parameter was fixed at 0.75 level." />
+<p class="caption">Log<span class="math inline">\(_{10}\)</span>-transformed empirical tumour volume (mm<span class="math inline">\(^3\)</span>) trajectories with superimposed treatment group LOESS fits with 95% confidence intervals. The smoothing parameter was fixed at 0.75 level.<span data-label="loess_trajectories_log_reduced_follow-up"></span></p>
+</div>
+<h2 id="summary"><span class="header-section-number">1.4</span> Summary</h2>
+<p><em><em>TBC&#8230;</em></em></p>
+<h1 id="algorithms"><span class="header-section-number">2</span> Algorithms</h1>
+<h2 id="Appendix_LOESS"><span class="header-section-number">2.1</span> LOESS</h2>
+<p>The procedure steps:</p>
+<ol>
+<li><p>Compute the regression weights for each data point in the (predefined) span <span class="math display">\[w_{i}=\left(1-\left|\frac{x-x_{i}}{d(x)}\right|^{3}\right)^{3}\]</span> where:</p>
+<ul>
+<li><p><span class="math inline">\(x\)</span>: the predictor value associated with the smoothed response value</p></li>
+<li><p><span class="math inline">\(x_{i}\)</span>: the neighbouring to <span class="math inline">\(x\)</span> values in the span</p></li>
+<li><p><span class="math inline">\(d(x)\)</span>: distance along the abscissa from <span class="math inline">\(x\)</span> to the most distance predictor value in the span.</p></li>
+</ul>
+<p>The span is usually expressed as a fraction of the data in each local neighbourhood, and therefore considered as a <em>bandwidth</em> or <em>smoothing parameter</em>: the larger span the stronger smoothing effect.</p></li>
+<li><p>At each point in the span dataset a low-degree polynomial is fitted using weighted least-squares method, with weights calculated in Step 1.</p></li>
+<li><p>Smoothed value at the predictor value of interest <span class="math inline">\(x\)</span> is given by the weighted regression. These points while matched for all <span class="math inline">\(x\)</span> in the dataset construct so called <em>LOESS curve</em> or <em>LOESS fit</em>.</p></li>
+</ol>
+<h2 id="Appendix_Permutation_test"><span class="header-section-number">2.2</span> Permutation-based test</h2>
+<p>Steps of the algorithm:</p>
+<ol>
+<li><p>Choose two treatment lines <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> to be compared</p></li>
+<li><p>Calculate the baseline t-statistics: <span class="math display">\[\begin{aligned}
+            \label{baseline_t}
+            t_{base} = \frac{\sum_{t}tStat_{t}\times df_{t}}{\sum_{t}df_{t}}
+          \end{aligned}\]</span> where:</p>
+<ul>
+<li><p><span class="math inline">\(tStat_{t}\)</span>: pooled two-sample (<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>) t-Student test statistics calculated at each time-point (day) <span class="math inline">\(t\)</span> of the follow-up (sub)period</p></li>
+<li><p><span class="math inline">\(df_{t}\)</span>: number of degrees of freedom at <span class="math inline">\(t\)</span> calculated as <span class="math inline">\(n_{A,t} + n_{B,t} - 2\)</span>, where <span class="math inline">\(n_{A,t}\)</span> and <span class="math inline">\(n_{B,t}\)</span> refer to the number of (actual) tumour measurements in the A and B group, respectively.</p></li>
+</ul></li>
+<li><p>Reshuffle randomly the subjects between the groups and run step 1. <span class="math inline">\(S\)</span> number of times (e.g., <span class="math inline">\(S=10^{3}\)</span>), recording each time the resulting t-value <span class="math inline">\(t^{s}\)</span>.</p></li>
+<li><p>Calculate the test p-value from: <span class="math display">\[\label{p_value}
+            p=\frac{\sum_{s}1_{t^{s}\geq t_{base}}}{S}\]</span></p></li>
+<li><p>Adjust resulting p-value [p_value] for multiple comparison bias (e.g., Bonferroni&#8217;s or Holm&#8217;s approach).</p></li>
+</ol>
+<div id="refs" class="references">
+<div id="ref-Cheng:2010bp">
+<p>Cheng, Cheng, and Jianrong Wu. 2010. &#8220;Interval estimation of quantile ratios applied to anti-cancer drug screening by xenograft experiments.&#8221; <em>Stat Med</em> 29 (26): 2669&#8211;78.</p>
+</div>
+<div id="ref-Cleveland:1979kf">
+<p>Cleveland, William S. 1979. &#8220;Robust Locally Weighted Regression and Smoothing Scatterplots.&#8221; <em>J. Amer. Statist. Assoc.</em> 74 (368): 829.</p>
+</div>
+<div id="ref-Cleveland:1981fm">
+<p>&#8212;&#8212;&#8212;. 1981. &#8220;LOWESS: A Program for Smoothing Scatterplots by Robust Locally Weighted Regression.&#8221; <em>The American Statistician</em> 35 (1): 54.</p>
+</div>
+<div id="ref-Cleveland:1988de">
+<p>Cleveland, William S, and Susan J Devlin. 1988. &#8220;Locally Weighted Regression: An Approach to Regression Analysis by Local Fitting.&#8221; <em>J. Amer. Statist. Assoc.</em> 83 (403): 596.</p>
+</div>
+<div id="ref-Demidenko:2010gn">
+<p>Demidenko, Eugene. 2010. &#8220;Three endpoints of in vivo tumour radiobiology and their statistical estimation.&#8221; <em>Int. J. Radiat. Biol.</em> 86 (2): 164&#8211;73.</p>
+</div>
+<div id="ref-Elso:2004jp">
+<p>Elso, C M, L J Roberts, G K Smyth, R J Thomson, T M Baldwin, S J Foote, and E Handman. 2004. &#8220;Leishmaniasis host response loci (lmr1-3) modify disease severity through a Th1/Th2-independent pathway.&#8221; <em>Genes Immun.</em> 5 (2): 93&#8211;100.</p>
+</div>
+<div id="ref-Heitjan:1993uw">
+<p>Heitjan, D F, A Manni, and R J Santen. 1993. &#8220;Statistical analysis of in vivo tumor growth experiments.&#8221; <em>Cancer Res.</em> 53 (24): 6042&#8211;50.</p>
+</div>
+<div id="ref-Koziol:1981gg">
+<p>Koziol, James A, Donna A Maxwell, Matsuro Fukushima, M E M Colmerauer, and Yosef H Pilch. 1981. &#8220;A Distribution-Free Test for Tumor-Growth Curve Analyses with Application to an Animal Tumor Immunotherapy Experiment.&#8221; <em>Biometrics</em> 37 (2): 383.</p>
+</div>
+<div id="ref-Laajala:2012kr">
+<p>Laajala, T D, J Corander, N M Saarinen, K Makela, S Savolainen, M I Suominen, E Alhoniemi, S Makela, M Poutanen, and T Aittokallio. 2012. &#8220;Improved Statistical Modeling of Tumor Growth and Treatment Effect in Preclinical Animal Studies with Highly Heterogeneous Responses In Vivo.&#8221; <em>Clinical Cancer Research</em> 18 (16): 4385&#8211;96.</p>
+</div>
+<div id="ref-Ludbrook:1998iv">
+<p>Ludbrook, John, and Hugh Dudley. 1998. &#8220;Why Permutation Tests Are Superior to t and F Tests in Biomedical Research.&#8221; <em>The American Statistician</em> 52 (2): 127.</p>
+</div>
+<div id="ref-Moses:1992dh">
+<p>Moses, Lincoln E, Lynn C Gale, and Jeanne Altmann. 1992. &#8220;Methods for analysis of unbalanced, longitudinal, growth data.&#8221; <em>Am. J. Primatol.</em> 28 (1): 49&#8211;59.</p>
+</div>
+<div id="ref-Ninness:2002ft">
+<p>Ninness, Chris, Richard Newton, Jamie Saxon, Robin Rumph, Anna Bradfield, Carol Harrison, and Eleazar Vasquez III. 2002. &#8220;Small Group Statistics: A Monte Carlo Comparison of Parametric and Randomization Tests.&#8221; <em>Behavior and Social Issues</em> 12 (1): 53.</p>
+</div>
+<div id="ref-PeresNeto:2001hz">
+<p>Peres-Neto, Pedro R, and Julian D Olden. 2001. &#8220;Assessing the robustness of randomization tests: examples from behavioural studies.&#8221; <em>Anim Behav</em> 61 (1): 79&#8211;86.</p>
+</div>
+<div id="ref-rlang:2013">
+<p>R Core Team. 2013. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="http://www.R-project.org/" class="uri">http://www.R-project.org/</a>.</p>
+</div>
+<div id="ref-Rocchetti:1990bu">
+<p>Rocchetti, M, and G De Nicolao. 1990. &#8220;CURT: a randomization test for statistical comparison between experimental curves.&#8221; <em>Comput Methods Programs Biomed</em> 31 (3-4): 207&#8211;13.</p>
+</div>
+<div id="ref-statmod:2013">
+<p>Smyth, Gordon, Yifang Hu, Peter Dunn, Belinda Phipson, and Yunshun Chen. 2013. <em>Statmod: Statistical Modeling</em>. <a href="http://CRAN.R-project.org/package=statmod" class="uri">http://CRAN.R-project.org/package=statmod</a>.</p>
+</div>
+</div>
+</body>
+</html>

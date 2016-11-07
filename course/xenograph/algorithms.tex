@@ -1,0 +1,45 @@
+\section{LOESS}
+\label{Appendix_LOESS}
+
+The procedure steps:
+\begin{enumerate}
+	\item Compute the regression weights for each data point in the (predefined) span
+	      \begin{equation}
+	      	w_{i}=\left(1-\left|\frac{x-x_{i}}{d(x)}\right|^{3}\right)^{3}
+	      \end{equation}
+	      where:
+	      \begin{itemize}
+	      	\item $x$: the predictor value associated with the smoothed response value
+	      	\item $x_{i}$: the neighbouring to $x$ values in the span
+	      	\item $d(x)$: distance along the abscissa from $x$ to the most distance predictor value in the span.
+	      \end{itemize}
+	      The span is usually expressed as a fraction of the data in each local neighbourhood, and therefore considered as a \textit{bandwidth} or  \textit{smoothing parameter}: the larger span the stronger smoothing effect.
+	\item At each point in the span dataset a low-degree polynomial is fitted using weighted least-squares method, with weights calculated in Step 1.
+	\item Smoothed value at the predictor value of interest $x$ is given by the weighted regression.
+	      These points while matched for all $x$ in the dataset construct so called \textit{LOESS curve} or \textit{LOESS fit}.
+\end{enumerate}
+
+\section{Permutation-based test}
+\label{Appendix_Permutation_test}
+Steps of the algorithm:
+\begin{enumerate}
+	\item Choose two treatment lines $A$ and $B$ to be compared
+	\item Calculate the baseline t-statistics:
+	      \begin{align}
+	      	t_{base} = \frac{\sum_{t}tStat_{t}\times df_{t}}{\sum_{t}df_{t}}
+	      	\label{baseline_t}
+	      \end{align}
+	      where:
+	      \begin{itemize}
+	      	\item $tStat_{t}$: pooled two-sample ($A$ and $B$) t-Student test statistics calculated at each time-point (day) $t$ of the follow-up (sub)period
+	      	\item $df_{t}$: number of degrees of freedom at $t$ calculated as $n_{A,t} + n_{B,t} - 2$, where $n_{A,t}$ and $n_{B,t}$ refer to the number of (actual) tumour measurements in the A and B group, respectively.
+	      \end{itemize}
+	\item Reshuffle randomly the subjects between the groups and run step 1.
+	      $S$ number of times (e.g., $S=10^{3}$), recording each time the resulting t-value $t^{s}$.
+	\item Calculate the test p-value from:
+	      \begin{align}
+	      	p=\frac{\sum_{s}1_{t^{s}\geq t_{base}}}{S}
+	      	\label{p_value}
+	      \end{align}
+	\item Adjust resulting p-value \cref{p_value} for multiple comparison bias (e.g., Bonferroni's or Holm's approach).
+\end{enumerate}
