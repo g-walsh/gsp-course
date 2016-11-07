@@ -70,7 +70,10 @@ Its most serious disadvantage, like the mean, results from its sensitivity to ou
 
 ## Best practice when displaying data
 
-...
+In this part we will approach some of the most commonly used plotting methods in scientific publication.
+The aim is to make your data as clear as possible and to always explain your data and to leave no room for anyone to question what you are showing them.
+In `r`, `ggplot` does a lot of the work for you by ensuring a clean and readable figure.
+As a result we will be acompanying the methods with example of how to present your data in a simular way using `ggplot`.
 
 ##### Data used for this session
 
@@ -104,10 +107,91 @@ This generates a set of data with two conditions A and B, each of which have 25 
 In recent years, graphical displays have come into prominence because computers have made them quick and easy to produce.
 Techniques of data exploration have been developed which have revolutionized the subject of statistics, and today no serious data analyst would carry out a formal numerical procedure without first inspecting the data by eye.
 Nowhere is this demonstrated more forcibly than in the way a scatter plot reveals a relationship between two variables.
+We can easily represent our `dat2` data as a scatter plot
+
+```r
+#Scatterplot
+ggplot(dat2, aes(x=xs, y=ys)) + geom_point(shape=1) + labs(list(title = "Scatterplot", x = "x Points", y = "Y Points"))
+```
+![](figures/scatterplot1.png)
+
+Scatter plots are probably the most easy to interpret data presentation styles that there is, especially when it is in the form of a time-series.
+As soon as you see it you start to look for correlations in the data (sometimes this is a bad idea!) and it just feels intuiative.
+
+We can use `ggplot` to add simple regression lines to our data to look for best fit lines.
+Here we add a linear regression
+
+```r
+# With a simple regression line
+ggplot(dat2, aes(x=xs, y=ys)) + geom_point(shape=1) + geom_smooth(method=lm) + labs(list(title = "Scatterplot", x = "x Points", y = "Y Points"))
+```
+![](figures/scatterplot2.png)
+
+As we created out data using the function $$ y = x + e $$ where e is a gaussian distribution around the mean $$ \mu = 0 $$ we would expect our regression line to approximate $$ y = x $$ and this is certainly the case.
 
 ### Error bars
 
-...
+When data is sampled it is used to make an estimation of some quantities in the population.
+For example we could sample a population, measure some metric of interest and take the sample mean, we would then use this mean to help us estimate the population mean.
+All sampling contains errors and uncertainties, this uncertainty must be accounted for in our statistical analysis and also in the ways we display data.
+Most people (researchers in particulat!) will have seen many error bars in their life and work.
+Unforunately, mistakes in their interpretation still continue.
+
+The misinterpretation of errors bars comes from the fact that there are several types in regular use and many figures do not make it clear which one they are using.
+Typically there are three types of error bar in use
+
+- Standard Deviation (s.d.) based. These bars represent one standard deviation to either side of the sample mean.
+These error bars give a notion of the spread of the data but are not necessarilly helpful when looking at the significance of results as they do not change with sample size.
+- Standard Error from the Mean (s.e.m.). This can be calculated from the s.d. ($$ s.e.m. = frac{s.d}{sqrt{n}} $$) and this error bar will get smaller with greater sample size.
+Be careful to note that if s.e.m. bars do not overlap that does not imply that the result is statistically significant, the p-value is still required. [^1]
+- Confidence Interval (CI). Common CI bars will be 95% confidence intervals, these represent a range which will contain the population mean 95% of the time. Intuatively if we were to repeat a sampling 20 times and calculate 95% confidence intervals we would expect 19 out of 20 of these intervals to cover the true population mean.
+
+[^1]: Krzywinski, M., & Altman, N. (2013). Points of significance: Importance of being uncertain. Nature Methods, 10(9), 809–810. [http://doi.org/10.1038/nmeth.2613](http://doi.org/10.1038/nmeth.2613)
+
+#### Plotting Error Bars with ggplot2
+
+Plotting bar charts or line graphs with `ggplot` is relatively simple after you have calculated the means and desired error measurement (s.d, s.e.m. and CI).
+If you wish to follow along with this in `r` please download [summarySE.r](scripts/summarySE.r) [^2], this script will provide a function that will calculate these metrics from our data set.
+
+[^2]: [Converting data between wide and long format ](http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/)
+
+We will use a set of data built into `r` for this as it is more appropriate for our visualisation.
+The set we will use is `chickenwts` which is a set of data that contains the weights of chickens after being given particular diets.
+
+```r
+#import chicken weight data set
+cw <- chickwts
+
+#ensure that you have the summarySE.R script downloaded
+tcw <- summarySE(cw, measurevar = "weight", groupvars = "feed")
+```
+
+Now we can look at the tcw summary table and see what we have.
+
+|   | feed      | N  | weight   | sd       | se       | ci       |
+| - |:---------:|:--:|:--------:|:--------:|:--------:|:--------:|
+| 1 | casein    | 12 | 323.5833 | 64.43384 | 18.60045 | 40.93931 |
+| 2 | horsebean | 10 | 160.2000 | 38.62584 | 12.21456 | 27.63126 |
+| 3 | linseed   | 12 | 218.7500 | 52.23570 | 15.07915 | 33.18898 |
+| 4 | meatmeal  | 11 | 276.9091 | 64.90062 | 19.56827 | 43.60083 |
+| 5 | soybean   | 14 | 246.4286 | 54.12907 | 14.46660 | 31.25319 |
+| 6 | sunflower | 12 | 328.9167 | 48.83638 | 14.09785 | 31.02916 |
+
+We can now plot these with different error bar methods (replacing the `sd` for `se` or `ci`)
+
+```r
+# Create bar chart of chicken weight dataset with s.e.m bars
+ggplot(tcw, aes(x=feed, y=weight, fill=feed)) +
+  geom_bar(position=position_dodge(), stat="identity", colour="black") +
+  geom_errorbar(aes(ymin=weight-sd, ymax=weight+sd),width=.3,size=0.7) +
+  labs(list(title = "Chicken Weight with s.e.m bars", x = "Feed", y = "Weight"))
+```
+
+![](figures/chickenbars_sd1.png) ![](figures/chickenbars_sem1.png) ![](figures/chickenbars_ci1.png)
+
+We can see here quite clearly that on the same data, different error bars can make the data look very different.
+Be sure to make it clear when presenting data with error bars which one your are using and what they represent.
+Also if you are making comparisons or testing significance remember to put p-values along with your error bars for full clarity.
 
 ### Histograms
 
@@ -179,9 +263,4 @@ Below we show two more plots of distributions similar to `dat` but adding a skew
 When we look at the density plot we can see the shape of the new distributions.
 The box plot still presents this new **messier** data clearly.
 
-![](figures/densityplot2.png) | ![](figures/boxplot2.png)
-
-## The data to ink ratio
-
-...
-``
+![](figures/densityplot2.png) ![](figures/boxplot2.png)
