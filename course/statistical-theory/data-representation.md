@@ -73,7 +73,7 @@ Its most serious disadvantage, like the mean, results from its sensitivity to ou
 In this part we will approach some of the most commonly used plotting methods in scientific publication.
 The aim is to make your data as clear as possible and to always explain your data and to leave no room for anyone to question what you are showing them.
 In `r`, `ggplot` does a lot of the work for you by ensuring a clean and readable figure.
-As a result we will be acompanying the methods with example of how to present your data in a simular way using `ggplot`.
+As a result we will be accompanying the methods with example of how to present your data in a similar way using `ggplot`.
 
 ##### Data used for this session
 
